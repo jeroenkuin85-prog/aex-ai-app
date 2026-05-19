@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#020617" />
+  <title>AEX AI Advisor</title>
+  <style>
+    :root{--cyan:#54e8ff;--green:#31f59b;--red:#ff6b7a;--gold:#e8b454;--bg:#03070c;--panel:rgba(7,15,22,.72)}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{height:100%;margin:0;overflow:hidden;background:#000;color:#fff;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+    body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 35% 25%,rgba(0,180,255,.22),transparent 32%),radial-gradient(circle at 75% 70%,rgba(0,255,150,.13),transparent 36%),linear-gradient(135deg,#031018,#000 55%,#06150f);z-index:-4}
+    body:after{content:"";position:fixed;inset:0;background:linear-gradient(rgba(84,232,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(84,232,255,.055) 1px,transparent 1px);background-size:34px 34px;opacity:.55;z-index:-3;animation:grid 18s linear infinite}@keyframes grid{to{background-position:120px 80px}}
+    .app{height:100dvh;width:100vw;padding:env(safe-area-inset-top) 10px env(safe-area-inset-bottom);display:grid;grid-template-rows:54px 1fr 104px;gap:8px;overflow:hidden;position:relative}
+    .top{display:flex;align-items:center;justify-content:space-between;padding:6px 4px}.brand{display:flex;gap:10px;align-items:center}.logo{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,#0b2630,#092d1e);display:grid;place-items:center;box-shadow:0 0 28px rgba(84,232,255,.25);border:1px solid rgba(84,232,255,.26);font-weight:900;color:var(--cyan)}
+    h1{font-size:18px;line-height:1;margin:0}.sub{font-size:9px;color:var(--cyan);letter-spacing:.3em;text-transform:uppercase;margin-top:4px}.status{text-align:right}.status b{font-size:11px;color:var(--green)}.status span{display:block;font-size:9px;color:#7d93a1;margin-top:4px}
+    .core{position:relative;overflow:hidden;border:1px solid rgba(84,232,255,.16);border-radius:24px;background:linear-gradient(180deg,rgba(3,10,16,.72),rgba(0,0,0,.44));box-shadow:inset 0 0 55px rgba(84,232,255,.06),0 18px 50px rgba(0,0,0,.55);perspective:900px}
+    .tunnel{position:absolute;left:50%;top:48%;width:88vmin;height:88vmin;transform:translate(-50%,-50%) rotateX(62deg);border-radius:50%;border:1px solid rgba(84,232,255,.22);box-shadow:0 0 0 32px rgba(84,232,255,.025),0 0 0 70px rgba(49,245,155,.018),0 0 80px rgba(84,232,255,.13);animation:spin 18s linear infinite}.tunnel:before,.tunnel:after{content:"";position:absolute;inset:13%;border-radius:50%;border:1px dashed rgba(84,232,255,.22)}.tunnel:after{inset:30%;border-color:rgba(49,245,155,.22);animation:spin 10s reverse linear infinite}@keyframes spin{to{transform:translate(-50%,-50%) rotateX(62deg) rotateZ(360deg)}}
+    .dataRain{position:absolute;inset:0;opacity:.34;background:repeating-linear-gradient(90deg,transparent 0 24px,rgba(84,232,255,.12) 25px,transparent 26px),repeating-linear-gradient(0deg,transparent 0 44px,rgba(49,245,155,.07) 45px,transparent 46px);animation:move 10s linear infinite}@keyframes move{to{background-position:200px 300px}}
+    .avatar{position:absolute;left:50%;bottom:4%;width:min(64vw,350px);transform:translateX(-50%);filter:drop-shadow(0 18px 35px rgba(0,0,0,.8)) drop-shadow(0 0 34px rgba(84,232,255,.34));animation:walk 7s ease-in-out infinite;z-index:3}@keyframes walk{0%,100%{transform:translateX(-53%) translateY(4px) rotateY(-10deg) scale(1)}50%{transform:translateX(-47%) translateY(-8px) rotateY(10deg) scale(1.025)}}
+    .orb{position:absolute;border-radius:50%;background:radial-gradient(circle,var(--cyan),transparent 65%);opacity:.45;filter:blur(1px);animation:float 5s ease-in-out infinite}.orb.a{width:16px;height:16px;left:17%;top:22%}.orb.b{width:10px;height:10px;left:75%;top:18%;animation-delay:1.2s}.orb.c{width:14px;height:14px;left:80%;top:72%;animation-delay:2s}@keyframes float{50%{transform:translateY(-16px)}}
+    .holo{position:absolute;z-index:4;border:1px solid rgba(84,232,255,.22);background:rgba(2,8,13,.68);backdrop-filter:blur(14px);border-radius:16px;box-shadow:0 0 28px rgba(84,232,255,.08)}.setup{left:10px;top:8px;width:42%;padding:12px}.setup .label{font-size:9px;color:var(--cyan);letter-spacing:.25em;text-transform:uppercase}.asset{font-size:22px;font-weight:950;margin-top:4px;line-height:1}.why{font-size:11px;color:#b8c7d1;margin-top:6px;line-height:1.35}.score{right:10px;top:8px;width:88px;height:88px;display:grid;place-items:center;text-align:center}.score strong{font-size:34px;color:var(--green);display:block;line-height:.85}.score small{font-size:9px;color:#93a6b5;text-transform:uppercase;letter-spacing:.2em}
+    .chart{left:10px;bottom:10px;width:calc(100% - 20px);height:94px;padding:8px 10px}.chart svg{width:100%;height:100%}.targets{position:absolute;right:16px;bottom:110px;z-index:5;text-align:right;font-size:10px;color:#9badb9}.targets b{display:block;color:var(--green);font-size:14px}.targets .stop b{color:var(--red)}
+    .bottom{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.card{border:1px solid rgba(84,232,255,.16);background:rgba(8,16,22,.82);border-radius:18px;padding:10px;overflow:hidden}.card h3{margin:0 0 6px;color:var(--cyan);font-size:11px}.rank{display:flex;justify-content:space-between;gap:6px;font-size:12px;padding:3px 0;color:#dbe8ef}.rank span{font-weight:800}.meter{height:6px;background:rgba(255,255,255,.09);border-radius:20px;overflow:hidden;margin:6px 0}.bar{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:20px}.btns{display:flex;flex-direction:column;gap:7px}.btn{border:0;border-radius:14px;background:linear-gradient(135deg,var(--cyan),var(--green));color:#001016;font-weight:950;padding:11px 8px;font-size:12px}.ghost{background:rgba(255,255,255,.06);color:#d5f8ff;border:1px solid rgba(84,232,255,.18)}
+    .toast{position:absolute;left:12px;right:12px;bottom:116px;background:rgba(0,0,0,.82);border:1px solid rgba(84,232,255,.2);border-radius:16px;padding:10px 12px;color:#b9ced8;font-size:11px;z-index:20;display:none}.toast.show{display:block}
+    @media (orientation:landscape){.app{grid-template-rows:44px 1fr}.bottom{position:absolute;right:12px;bottom:12px;width:40%;height:110px}.core{grid-row:2}.avatar{width:min(42vw,310px)}.chart{width:58%;}.setup{width:34%}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="top"><div class="brand"><div class="logo">AI</div><div><h1>AEX AI Advisor</h1><div class="sub">private live core</div></div></div><div class="status"><b id="liveStatus">LIVE laden...</b><span id="time">--:--</span></div></header>
+    <main class="core">
+      <div class="dataRain"></div><div class="tunnel"></div><div class="orb a"></div><div class="orb b"></div><div class="orb c"></div>
+      <div class="holo setup"><div class="label">beste setup nu</div><div class="asset" id="asset">AEX scan</div><div class="why" id="why">Live AEX-data ophalen...</div></div>
+      <div class="holo score"><div><small>score</small><strong id="score">--</strong><small>/10</small></div></div>
+      <img class="avatar" src="public/ai-advisor.png" alt="AI advisor" />
+      <div class="targets"><div>Entry <b id="entry">--</b></div><div class="stop">Stop <b id="stop">--</b></div><div>Target <b id="target">--</b></div></div>
+      <div class="holo chart"><svg viewBox="0 0 600 110"><polyline id="line" fill="none" stroke="#42e6ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points=""/><line x1="12" x2="588" y1="24" y2="24" stroke="rgba(49,245,155,.45)" stroke-dasharray="5 6"/><line x1="12" x2="588" y1="83" y2="83" stroke="rgba(255,107,122,.35)" stroke-dasharray="5 6"/></svg></div>
+    </main>
+    <section class="bottom"><div class="card"><h3>Ranking</h3><div id="ranking"></div></div><div class="card"><h3>Factoren</h3><div>Trend <span id="trendVal"></span></div><div class="meter"><div id="trend" class="bar"></div></div><div>Momentum <span id="momVal"></span></div><div class="meter"><div id="mom" class="bar"></div></div></div><div class="card btns"><button class="btn" onclick="scan(true)">Scan nu</button><button class="btn ghost" onclick="installHint()">Op beginscherm</button><button class="btn ghost" onclick="toggleSound()" id="soundBtn">Geluid uit</button></div></section>
+    <div class="toast" id="toast"></div>
+  </div>
+<script>
+const API_KEY='d5d169555f864285a60e34003f7ff2ff';
+const STOCKS=[['ASML','ASML Holding','ASML:EURONEXT'],['ADYEN','Adyen','ADYEN:EURONEXT'],['INGA','ING Groep','INGA:EURONEXT'],['SHELL','Shell','SHELL:EURONEXT']];
+let muted=true; const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function eur(n){return '€'+Number(n).toLocaleString('nl-NL',{maximumFractionDigits:2,minimumFractionDigits:2})}
+function score(s){return Math.max(1,Math.min(9.9,((s.trend*.34+s.momentum*.36+s.rsiScore*.12+s.volume*.18)/10))).toFixed(1)}
+function rsi(closes){let g=0,l=0;for(let i=Math.max(1,closes.length-14);i<closes.length;i++){let d=closes[i]-closes[i-1];if(d>=0)g+=d;else l-=d}if(l===0)return 70;return Math.round(100-100/(1+g/l))}
+function norm(v,min,max){return Math.max(0,Math.min(100,Math.round((v-min)/(max-min)*100)))}
+function linePoints(arr){const min=Math.min(...arr),max=Math.max(...arr),step=580/(arr.length-1);return arr.map((v,i)=>`${10+i*step},${95-norm(v,min,max)*75/100}`).join(' ')}
+async function getStock([symbol,name,apiSymbol]){
+  const url=`https://api.twelvedata.com/time_series?symbol=${encodeURIComponent(apiSymbol)}&interval=1h&outputsize=30&apikey=${API_KEY}`;
+  const res=await fetch(url); const data=await res.json();
+  if(!data.values) throw new Error(data.message||'Geen live-data');
+  const closes=data.values.map(v=>+v.close).reverse().filter(Boolean); const vols=data.values.map(v=>+v.volume||1).reverse();
+  const latest=closes.at(-1), prev=closes.at(-2)||latest, first=closes[0]||latest;
+  const change=(latest-prev)/prev*100, trend=norm((latest-first)/first*100,-5,7), momentum=norm(change,-2.2,2.2);
+  const recent=vols.slice(-5).reduce((a,b)=>a+b,0)/5, old=vols.slice(0,12).reduce((a,b)=>a+b,0)/12||recent;
+  const rr=rsi(closes), volume=norm(recent/old,.7,1.6), rsiScore=100-Math.abs(55-rr)*2;
+  let pattern='Range Watch'; if(trend>68&&momentum>58)pattern='Bullish Breakout'; else if(trend>55&&rr<62)pattern='Pullback Kans'; else if(momentum>70)pattern='Momentum Spike';
+  return {symbol,name,price:latest,change,trend,momentum,volume,rsi:rr,rsiScore,pattern,closes:closes.slice(-16)};
+}
+function render(list, live=true){list.sort((a,b)=>score(b)-score(a)); const b=list[0], sc=score(b);
+  document.getElementById('asset').textContent=b.name; document.getElementById('score').textContent=sc;
+  document.getElementById('why').textContent=`${b.symbol}: ${b.pattern}. Trend ${b.trend}/100, momentum ${b.momentum}/100, RSI ${b.rsi}. Technisch live-signaal voor privégebruik.`;
+  document.getElementById('entry').textContent=eur(b.price*.995)+' - '+eur(b.price*1.008); document.getElementById('stop').textContent=eur(b.price*.965); document.getElementById('target').textContent=eur(b.price*1.045);
+  document.getElementById('line').setAttribute('points',linePoints(b.closes)); document.getElementById('trend').style.width=b.trend+'%'; document.getElementById('mom').style.width=b.momentum+'%'; document.getElementById('trendVal').textContent=b.trend; document.getElementById('momVal').textContent=b.momentum;
+  document.getElementById('ranking').innerHTML=list.slice(0,4).map((s,i)=>`<div class="rank"><span>${i+1}. ${s.symbol}</span><b>${score(s)}</b></div>`).join('');
+  document.getElementById('liveStatus').textContent=live?'LIVE AEX':'LIVE PAUZE'; document.getElementById('time').textContent=new Date().toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'});
+}
+function cached(){try{return JSON.parse(localStorage.getItem('aex-live-cache')||'null')}catch(e){return null}}
+async function scan(manual=false){toast(manual?'Live scan gestart...':'Live AEX-data laden...'); const c=cached(); if(c&&Date.now()-c.t<15*60*1000&&!manual){render(c.data,true);return toast('Live data geladen uit cache. Volgende echte scan automatisch.');}
+  let list=[]; try{for(const st of STOCKS){list.push(await getStock(st)); await sleep(900)} localStorage.setItem('aex-live-cache',JSON.stringify({t:Date.now(),data:list})); render(list,true); toast('Live scan klaar.'); beep();}
+  catch(e){if(c){render(c.data,false); toast('Twelve Data limiet of storing. Laatste live scan blijft zichtbaar. Probeer over 1 minuut opnieuw.');}else{document.getElementById('liveStatus').textContent='WACHT OP LIVE'; toast('Live data nog niet beschikbaar: '+e.message);}}
+}
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),4200)}
+function installHint(){toast('iPhone: tik Delen → Zet op beginscherm. Daarna opent hij als app.')}function toggleSound(){muted=!muted;document.getElementById('soundBtn').textContent=muted?'Geluid uit':'Geluid aan'}function beep(){if(muted)return;try{const a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.frequency.value=660;o.connect(g);g.connect(a.destination);g.gain.value=.03;o.start();setTimeout(()=>{o.stop();a.close()},160)}catch(e){}}
+scan(); setInterval(()=>scan(false),15*60*1000);
+</script>
+</body>
+</html>
